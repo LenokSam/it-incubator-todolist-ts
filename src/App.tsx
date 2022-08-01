@@ -5,8 +5,19 @@ import {v1} from 'uuid';
 import {Input} from './components/Input';
 import ButtonAppBar from './components/ButtonAppBar';
 import {Container, Grid, Paper} from '@mui/material';
-import {addTodolistAC, todolistReducer} from './redux/todolistsReducer';
-import {addTaskAC, changeStatusAC, removeTaskAC, removeTodolistAC, tasksReducer} from './redux/tasksReducer';
+import {
+  addTodolistAC,
+  changeFilterAC,
+  editTodoListAC,
+  removeTodolistAC,
+  todolistReducer
+} from './redux/todolistsReducer';
+import {
+  addTaskAC,
+  changeStatusAC, editTaskAC,
+  removeTaskAC,
+  tasksReducer
+} from './redux/tasksReducer';
 
 export type FilterValuesType = 'all' | 'active' | 'completed';
 export type TodolistType = {
@@ -30,6 +41,7 @@ function App() {
     {id: todolistId2, title: 'What to buy', filter: 'all'}
 
   ])
+
 
   let [tasks, dispatchTasks] = useReducer(tasksReducer, {
     [todolistId1]: [
@@ -56,11 +68,8 @@ function App() {
   }
 
   function changeFilter(value: FilterValuesType, todolistId: string) {
-    // let todolist = todolists.find(tl => tl.id === todolistId);
-    // if (todolist) {
-    //   todolist.filter = value;
-    //   // setTodolists([...todolists])
-    // }
+    dispatchTodolists(changeFilterAC(value,todolistId))
+
   }
 
   function removeTodolist(todolistId: string) {
@@ -69,18 +78,19 @@ function App() {
   }
 
   const addTodolist = (newTitle: string) => {
-    let newTodolistID = v1()
-    dispatchTasks(addTodolistAC(newTodolistID, newTitle))
-    dispatchTodolists(addTodolistAC(newTodolistID, newTitle))
+    let action = addTodolistAC(newTitle)
+    dispatchTasks(action)
+    dispatchTodolists(action)
   }
 
   const editTask = (todoListId: string, taskId: string, newTitle: string) => {
-    // setTasks({...tasks, [todoListId]: tasks[todoListId].map(e => e.id === taskId ? {...e, title: newTitle} : {...e})})
+    dispatchTasks(editTaskAC(todoListId, taskId, newTitle))
   }
 
   const editTodoList = (todoListId: string, newTitle: string) => {
-    // setTodolists(todolists.map(el => el.id === todoListId ? {...el, title: newTitle} : el))
+    dispatchTodolists(editTodoListAC(todoListId,newTitle ))
   }
+
 
   return (
     <div className="App">

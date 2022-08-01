@@ -49,16 +49,15 @@ export function Todolist(props: PropsType) {
     <h3>
       <EditableSpan oldTitle={props.title} callback={editaTodoListHandler}/>
 
-      <IconButton aria-label="delete">
-        <Delete onClick={removeTodolist}/>
+      <IconButton aria-label="delete" onClick={removeTodolist}>
+        <Delete />
       </IconButton>
 
-      {/*<button onClick={removeTodolist}>x</button>*/}
     </h3>
 
     <Input callBack={addTaskHandler}/>
-
-    <ul>
+    {props.tasks &&
+      <ul>
       {
         props.tasks.map(t => {
           const onClickHandler = () => props.removeTask(t.id, props.id)
@@ -72,27 +71,16 @@ export function Todolist(props: PropsType) {
               onChange={onChangeHandler}
               checked={t.isDone}
             />
-            {/*<input type="checkbox" onChange={onChangeHandler} checked={t.isDone}/>*/}
             <EditableSpan oldTitle={t.title} callback={(newTitle: string) => editableSpanHandler(t.id, newTitle)}/>
-            <IconButton aria-label="delete">
-              <Delete onClick={onClickHandler}/>
+            <IconButton aria-label="delete" onClick={onClickHandler}>
+              <Delete />
             </IconButton>
 
-            {/*<button onClick={onClickHandler}>x</button>*/}
           </li>
         })
       }
-    </ul>
+    </ul>}
     <div>
-      {/*<button className={props.filter === 'all' ? 'active-filter' : ''}*/}
-      {/*        onClick={onAllClickHandler}>All*/}
-      {/*</button>*/}
-      {/*<button className={props.filter === 'active' ? 'active-filter' : ''}*/}
-      {/*        onClick={onActiveClickHandler}>Active*/}
-      {/*</button>*/}
-      {/*<button className={props.filter === 'completed' ? 'active-filter' : ''}*/}
-      {/*        onClick={onCompletedClickHandler}>Completed*/}
-      {/*</button>*/}
 
       <Button
         variant={props.filter === 'all' ? 'outlined' : 'contained'} color="secondary" onClick={onAllClickHandler}
