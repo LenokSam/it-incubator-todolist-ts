@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useCallback, useState} from 'react';
 import {findByTitle} from '@testing-library/react';
 
 export type EditableSpanType = {
@@ -7,24 +7,24 @@ export type EditableSpanType = {
 }
 
 
-export const EditableSpan: React.FC<EditableSpanType> = ({oldTitle, callback}) => {
+const EditableSpan: React.FC<EditableSpanType> = ({oldTitle, callback}) => {
 
   const [edit, setEdit] = useState<boolean>(false)
   let [newTitle, setNewTitle] = useState<string>(oldTitle)
-  const changeEditHandler = () => {
+  const changeEditHandler = useCallback(() => {
     setEdit(!edit)
-  }
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setNewTitle(e.currentTarget.value)
-    addTask()
-  }
-  const addTask = () => {
+  },[])
 
+  const addTask = useCallback(() => {
     if (newTitle !== '') {
       callback(newTitle);
-      // setTitle("");
     }
-  }
+  },[newTitle])
+  const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setNewTitle(e.currentTarget.value)
+    addTask()
+  },[addTask])
+
 
 
   return (
@@ -42,3 +42,4 @@ export const EditableSpan: React.FC<EditableSpanType> = ({oldTitle, callback}) =
   );
 };
 
+export default React.memo(EditableSpan)

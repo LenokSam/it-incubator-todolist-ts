@@ -1,8 +1,8 @@
 import React, {useReducer, useState} from 'react';
 import './App.css';
-import {TaskType, Todolist} from './Todolist';
+import Todolist, {TaskType} from './Todolist';
 import {v1} from 'uuid';
-import {Input} from './components/Input';
+import Input from './components/Input';
 import ButtonAppBar from './components/ButtonAppBar';
 import {Container, Grid, Paper} from '@mui/material';
 import {

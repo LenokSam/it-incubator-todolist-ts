@@ -1,5 +1,5 @@
 {
-  "name": "samurai-way",
+  "name": "todolist",
   "version": "0.1.0",
   "private": true,
   "homepage": "",
@@ -45,6 +45,7 @@
       "react-app",
       "react-app/jest"
     ]
+
   },
   "browserslist": {
     "production": [
